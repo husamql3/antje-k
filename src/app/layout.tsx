@@ -24,8 +24,7 @@ const sourceSerif4 = Source_Serif_4({
 })
 
 export const metadata: Metadata = {
-  title: 'Antej-K',
-  description: 'Antej-K',
+  title: "Antje's Art",
 }
 
 function RootLayout({
@@ -37,7 +36,7 @@ function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          'font-caveat flex min-h-svh flex-col antialiased relative',
+          'font-caveat relative flex min-h-svh flex-col antialiased',
           caveat.style,
           dmSans.style,
           sourceSerif4.style
@@ -51,7 +50,7 @@ function RootLayout({
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundBlendMode: 'multiply',
-            opacity: 0.8
+            opacity: 0.8,
           }}
         />
         <TransitionProvider>
