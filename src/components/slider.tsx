@@ -73,7 +73,6 @@ const SlideContent = memo(
     isMobile: boolean
   }) => {
     const isActive = index === activeIndex
-    const shouldPreload = isMobile ? Math.abs(index - activeIndex) <= 1 : Math.abs(index - activeIndex) <= 2
 
     return (
       <div
@@ -112,45 +111,33 @@ const SlideContent = memo(
           }}
         >
           <div className="relative mx-auto flex h-[350px] w-fit items-center justify-center overflow-visible p-4 md:h-[550px] md:p-6">
-            {/* Preload image for nearby slides */}
-            <Image
-              src={image.src || '/placeholder.svg'}
-              alt=""
-              width={isMobile ? 800 : 1067}
-              height={isMobile ? 400 : 540}
-              quality={shouldPreload ? highQuality : lowQuality}
-              priority={index <= 2}
-              unoptimized={false}
-              className="pointer-events-none absolute opacity-0"
-              style={{ zIndex: -1 }}
-            />
-
-            {/* Background blur image - always rendered for active slides */}
+            {/* Single background blur image - consistent props */}
             <Image
               src={image.src || '/placeholder.svg'}
               alt=""
               width={1200}
               height={1200}
-              quality={highQuality}
-              priority={index <= 2}
+              quality={95}
+              priority={index <= 4}
               unoptimized={false}
               className="absolute top-1/2 left-1/2 aspect-square max-h-[350px] w-fit max-w-full -translate-x-1/2 -translate-y-1/2 scale-95 object-contain transition-all ease-out md:max-h-[550] md:scale-100"
               style={{
                 opacity: isActive ? 0.8 : 0,
-                filter: isActive ? (isMobile ? 'blur(10px) saturate(1)' : 'blur(15px) saturate(1.6)') : 'none',
+                filter: isActive ? (isMobile ? 'blur(10px) saturate(1)' : 'blur(15px) saturate(1.6)') : 'blur(0px)',
                 zIndex: 0,
                 transitionDuration: isMobile ? '200ms' : '300ms',
                 willChange: 'opacity, filter',
               }}
             />
 
-            {/* Main image - always rendered, controlled by opacity */}
+            {/* Single main image - consistent props, effects via CSS */}
             <div
               className="relative z-10"
               style={{
                 opacity: isActive ? 1 : 0.7,
+                filter: !isActive ? (isMobile ? 'blur(2px) saturate(1.1)' : 'blur(4px) saturate(1.2)') : 'none',
                 transitionDuration: isMobile ? '200ms' : '300ms',
-                willChange: 'opacity',
+                willChange: 'opacity, filter',
               }}
             >
               {isActive ? (
@@ -163,9 +150,9 @@ const SlideContent = memo(
                     alt={image.name}
                     width={1200}
                     height={1200}
-                    quality={100}
-                    priority={index <= 2}
-                    loading={index <= 2 ? 'eager' : 'lazy'}
+                    quality={95}
+                    priority={index <= 4}
+                    loading={index <= 4 ? 'eager' : 'lazy'}
                     className="aspect-square max-h-[350px] w-fit max-w-full object-contain transition-all ease-out md:max-h-[550]"
                     style={{
                       transitionDuration: isMobile ? '200ms' : '300ms',
@@ -176,13 +163,13 @@ const SlideContent = memo(
                 <Image
                   src={image.src || '/placeholder.svg'}
                   alt={image.name}
-                  width={isMobile ? 800 : 1067}
-                  height={isMobile ? 400 : 540}
-                  quality={highQuality}
-                  priority={index <= 2}
+                  width={1200}
+                  height={1200}
+                  quality={95}
+                  priority={index <= 4}
+                  loading={index <= 4 ? 'eager' : 'lazy'}
                   className="aspect-square max-h-[350px] w-fit max-w-full object-contain transition-all ease-out md:max-h-[550]"
                   style={{
-                    filter: isMobile ? 'blur(2px) saturate(1.1)' : 'blur(4px) saturate(1.2)',
                     transitionDuration: isMobile ? '200ms' : '300ms',
                   }}
                 />
