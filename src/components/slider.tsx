@@ -58,8 +58,6 @@ const SlideContent = memo(
     activeIndex,
     hovering,
     setHovering,
-    highQuality,
-    lowQuality,
     isMobile,
   }: {
     image: ImageData
@@ -68,8 +66,6 @@ const SlideContent = memo(
     hovering: boolean
     setHovering: (hovering: boolean) => void
     onSlideClick: (index: number) => void
-    highQuality: number
-    lowQuality: number
     isMobile: boolean
   }) => {
     const isActive = index === activeIndex
@@ -214,7 +210,7 @@ export const Slider = memo(({ images }: SliderProps) => {
   const [hovering, setHovering] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
   const swiperRef = useRef<SwiperType | null>(null)
-  const { highQuality, lowQuality, isMobile } = useResponsiveQuality()
+  const { isMobile } = useResponsiveQuality()
 
   const handleSlideClick = useCallback(
     (index: number) => {
@@ -288,13 +284,11 @@ export const Slider = memo(({ images }: SliderProps) => {
             hovering={hovering}
             setHovering={setHovering}
             onSlideClick={handleSlideClick}
-            highQuality={highQuality}
-            lowQuality={lowQuality}
             isMobile={isMobile}
           />
         </SwiperSlide>
       )),
-    [images, activeIndex, hovering, setHovering, handleSlideClick, highQuality, lowQuality, isMobile]
+    [images, activeIndex, hovering, setHovering, handleSlideClick, isMobile]
   )
 
   return (
